@@ -22,10 +22,17 @@ public class ArticuloModelo {
 
     public Articulo save(Articulo articulo) {
         int longitudClave = articulo.getClave().length();
-        if (articulo.getNombre().length() > 30)return null;
+        int longitudNombre = articulo.getNombre().length();
+        if (longitudNombre > 30 || longitudNombre==0) {
+            return null;
+        }
 
-        if (longitudClave > 30 || longitudClave < 3)return null;
-        
+        if (longitudClave > 30 || longitudClave < 3) {
+            return null;
+        }
+
+        if(articulo.getPrecio()<0) return null;
+
         switch (articulo.getUnidadMedida()) {
             case "1":
                 articulo.setUnidadMedida("Pieza");
@@ -45,5 +52,59 @@ public class ArticuloModelo {
 
         Articulo nuevoArticulo = articuloRepository.save(articulo);
         return nuevoArticulo;
+    }
+
+    public Articulo actualizar(Articulo articulo) {
+        Articulo articuloAnterior = getArticuloById(articulo.getId());
+        if (articuloAnterior == null)return null;
+        
+
+        int longitudClave = articulo.getClave().length();
+        int longitudNombre = articulo.getNombre().length();
+
+        if (longitudNombre > 30 || longitudNombre==0) {
+            return null;
+        }
+
+        if (longitudClave > 30 || longitudClave < 3) {
+            return null;
+        }
+
+        if(articulo.getPrecio()<0) return null;
+
+        switch (articulo.getUnidadMedida()) {
+            case "1":
+                articulo.setUnidadMedida("Pieza");
+                break;
+            case "2":
+                articulo.setUnidadMedida("Kilogramo");
+                break;
+            case "3":
+                articulo.setUnidadMedida("Pulgada");
+                break;
+            case "4":
+                articulo.setUnidadMedida("Litro");
+                break;
+            case "Pieza":
+            case "Kilogramo":
+            case "Pulgada":
+            case "Litro":
+                break;
+            default:
+                return null;
+        }
+
+        Articulo nuevoArticulo = articuloRepository.save(articulo);
+        return nuevoArticulo;
+    }
+
+    public int eliminar(int id) {
+        Articulo articuloAnterior = getArticuloById(id);
+        if (articuloAnterior == null){
+            return 0;
+        }else{
+            articuloRepository.delete(articuloAnterior);
+            return 1;
+        }
     }
 }
