@@ -38,10 +38,10 @@ public class ArticuloController {
     public ResponseEntity<Articulo> guardarArticulo(@RequestBody Articulo articulo) {
         Articulo nuevoArticulo = articuloModelo.save(articulo);
         if (nuevoArticulo == null) {
-            publisher.send("No se guardo el articulo");
+            publisher.send("No se guardo el articulo | "+articulo.toString());
             return ResponseEntity.unprocessableEntity().build();
         }
-        publisher.send("Se guardo articulo con id: " + nuevoArticulo.getId());
+        publisher.send("Se guardo articulo: " + articulo.toString());
         return ResponseEntity.ok(nuevoArticulo);
     }
 

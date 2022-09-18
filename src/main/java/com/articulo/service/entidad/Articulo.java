@@ -32,4 +32,9 @@ public class Articulo {
 
     @Column(name = "precio", nullable = false)
     private double precio;
+
+    @Override
+    public String toString() {
+        return "{id: "+id+", nombre:"+nombre+", unidadMedida:"+unidadMedida+", clave:"+clave+", precio:"+precio+"}";
+    }
 }
