@@ -24,7 +24,7 @@ public class ArticuloController {
     private Publisher publisher;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Articulo> obtenerArticulo(@PathVariable("id") int id) {
+    public ResponseEntity<Articulo> obtenerArticulo(@PathVariable("id") String id) {
         Articulo articulo = articuloModelo.getArticuloById(id);
         if (articulo == null) {
             publisher.send("No se leyo el articulo con id " + id);
@@ -57,9 +57,9 @@ public class ArticuloController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Articulo>> listarArticulo() {
-        List<Articulo> articulos = articuloModelo.getAll();
-        if (articulos.isEmpty()) {
+    public ResponseEntity<Iterable<Articulo>> listarArticulo() {
+        Iterable<Articulo> articulos = articuloModelo.getAll();
+        if (articulos == null) {
             publisher.send("No hay articulos para listar");
             return ResponseEntity.noContent().build();
         }
@@ -85,7 +85,7 @@ public class ArticuloController {
     }
 
     @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable("id") int id) {
+    public String eliminar(@PathVariable("id") String id) {
         int respuesta = articuloModelo.eliminar(id);
         if (respuesta == 0) {
             publisher.send("No existia articulo con id " + id);

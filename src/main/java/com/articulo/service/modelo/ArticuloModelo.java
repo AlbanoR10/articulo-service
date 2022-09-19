@@ -12,11 +12,11 @@ public class ArticuloModelo {
     @Autowired
     private ArticuloRepository articuloRepository;
 
-    public List<Articulo> getAll() {
+    public Iterable<Articulo> getAll() {
         return articuloRepository.findAll();
     }
 
-    public Articulo getArticuloById(int d) {
+    public Articulo getArticuloById(String d) {
         return articuloRepository.findById(d).orElse(null);
     }
 
@@ -98,7 +98,7 @@ public class ArticuloModelo {
         return nuevoArticulo;
     }
 
-    public int eliminar(int id) {
+    public int eliminar(String id) {
         Articulo articuloAnterior = getArticuloById(id);
         if (articuloAnterior == null){
             return 0;

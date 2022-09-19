@@ -1,8 +1,12 @@
 package com.articulo.service.repositorio;
 
 import com.articulo.service.entidad.Articulo;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ArticuloRepository extends JpaRepository<Articulo, Integer>{
+@EnableScan
+@Repository
+public interface ArticuloRepository extends CrudRepository<Articulo, String>{
     
 }
