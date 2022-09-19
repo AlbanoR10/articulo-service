@@ -38,7 +38,7 @@ public class ArticuloController {
     public ResponseEntity<Articulo> guardarArticulo(@RequestBody Articulo articulo) {
         Articulo nuevoArticulo = articuloModelo.save(articulo);
         if (nuevoArticulo == null) {
-            publisher.send("No se guardo el articulo | "+articulo.toString());
+            publisher.send("No se guardo el articulo | " + articulo.toString());
             return ResponseEntity.unprocessableEntity().build();
         }
         publisher.send("Se guardo articulo: " + articulo.toString());
@@ -69,12 +69,17 @@ public class ArticuloController {
 
     @GetMapping("/info")
     public ResponseEntity<String> informacionArticulos() {
-        
+
         publisher.send("Se pidió informacion");
-        String info = "Campo nombre: Texto de entre 1 y 30 caracteres\n"+
-                        "Campo unidadMedida: 1=Pieza, 2=Kilogramo, 3=Pulgada, 4=Litro\n"+
-                        "Campo clave: Texto de entre 3 y 30 caracteres\n"+
-                        "Campo precio: Numero decimal";
+        String info = "Campo nombre: Texto de entre 1 y 30 caracteres\n"
+                + "Campo unidadMedida: 1=Pieza, 2=Kilogramo, 3=Pulgada, 4=Litro\n"
+                + "Campo clave: Texto de entre 3 y 30 caracteres\n"
+                + "PARA GUARDAR{POST} /\n"
+                + "PARA ELIMINAR{GET} /eliminar/{id}\n"
+                + "PARA ACTUALIZAR{POST} /actualizar\n"
+                + "PARA LISTAR ARTICULO{GET} /{id}\n"
+                + "PARA LISTAR TODOS LOS ARTICULO{GET} /\n"
+                + "Campo precio: Numero decimal";
 
         return ResponseEntity.ok(info);
     }
@@ -82,7 +87,7 @@ public class ArticuloController {
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable("id") int id) {
         int respuesta = articuloModelo.eliminar(id);
-        if (respuesta==0) {
+        if (respuesta == 0) {
             publisher.send("No existia articulo con id " + id);
             return "No existia articulo con id " + id;
         }
