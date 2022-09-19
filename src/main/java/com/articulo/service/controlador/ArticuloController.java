@@ -30,7 +30,7 @@ public class ArticuloController {
             publisher.send("No se leyo el articulo con id " + id);
             return ResponseEntity.notFound().build();
         }
-        publisher.send("Se leyo el articulo con id " + id);
+        publisher.send("Se leyo el articulo:" + articulo.toString());
         return ResponseEntity.ok(articulo);
     }
 
@@ -49,10 +49,10 @@ public class ArticuloController {
     public ResponseEntity<Articulo> actualizarArticulo(@RequestBody Articulo articulo) {
         Articulo nuevoArticulo = articuloModelo.actualizar(articulo);
         if (nuevoArticulo == null) {
-            publisher.send("No se actualizo el articulo con id: " + articulo.getId());
+            publisher.send("No se actualizo el articulo: " + articulo.toString());
             return ResponseEntity.unprocessableEntity().build();
         }
-        publisher.send("Se actualizo el articulo con id: " + nuevoArticulo.getId());
+        publisher.send("Se actualizo el articulo: " + nuevoArticulo.toString());
         return ResponseEntity.ok(nuevoArticulo);
     }
 
@@ -86,12 +86,13 @@ public class ArticuloController {
 
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable("id") String id) {
+        Articulo articuloBuscado = articuloModelo.getArticuloById(id);
         int respuesta = articuloModelo.eliminar(id);
         if (respuesta == 0) {
             publisher.send("No existia articulo con id " + id);
             return "No existia articulo con id " + id;
         }
-        publisher.send("Se elimino articulo con id " + id);
-        return "Se elimino articulo con id " + id;
+        publisher.send("Se elimino articulo:" + articuloBuscado.toString());
+        return "Se elimino articulo: " + articuloBuscado.toString();
     }
 }
